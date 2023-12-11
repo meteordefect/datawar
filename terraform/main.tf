@@ -1,3 +1,6 @@
+# This terraform will create an s3 hosted website on AWS
+# Update the variables.tf file with your data
+
 terraform {
   required_providers {
     aws = {
