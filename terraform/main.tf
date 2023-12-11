@@ -35,17 +35,32 @@ resource "aws_s3_bucket_policy" "hosting_bucket_policy" {
   bucket = aws_s3_bucket.hosting_bucket.id
 
   policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
+    "Version": "2012-10-17",
+    "Statement": [
       {
-        "Effect" : "Allow",
-        "Principal" : "*",
-        "Action" : "s3:GetObject",
-        "Resource" : "arn:aws:s3:::${var.bucket_name}/*"
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::285572126612:user/terrauser"
+        },
+        "Action": "s3:ListBucket",
+        "Resource": "arn:aws:s3:::${var.bucket_name}"
+      },
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::285572126612:user/terrauser"
+        },
+        "Action": [
+          "s3:GetObject",
+          "s3:PutObject"
+        ],
+        "Resource": "arn:aws:s3:::${var.bucket_name}/*"
       }
     ]
   })
 }
+
+
 
 resource "aws_s3_bucket_website_configuration" "hosting_bucket_website_configuration" {
   bucket = aws_s3_bucket.hosting_bucket.id
